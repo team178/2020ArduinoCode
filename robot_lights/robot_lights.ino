@@ -12,9 +12,12 @@ int randompix;
 int randompix2;
 int randompix3;
 char input;
-uint32_t yellow=(253,209,9);
-uint32_t Maincolor;
-uint32_t Secondcolor;
+int RM;
+int GM;
+int BM;
+int RS;
+int GS;
+int BS;
 
 
 void randomizer(){
@@ -26,12 +29,12 @@ void randomizer(){
 }
 void fade(){
   for(int i=0; i<NUM; i++){
-    strip.setPixelColor(i,Maincolor);
+    strip.setPixelColor(i,RM,GM,BM);
     strip.setBrightness(x);
   }
-  strip.setPixelColor(randompix,Secondcolor);
-  strip.setPixelColor(randompix2,Secondcolor);
-  strip.setPixelColor(randompix3,Secondcolor);
+  strip.setPixelColor(randompix,RS,GS,BS);
+  strip.setPixelColor(randompix2,RS,GS,BS);
+  strip.setPixelColor(randompix3,RS,GS,BS);
   if(y==1){
   x++;
   if(x==255){
@@ -52,12 +55,20 @@ void defineinput(){
 }
 void mainColor(){
   if(input=="r"){
-    Maincolor= 237,28,36;
-    Secondcolor= 0,101,179;
+    RM=237;
+    GM=28;
+    BM=36;
+    RS=0;
+    GS=101;
+    BS=179;
   }
   if(input=="b"){
-    Maincolor= 0,101,179;
-    Secondcolor= 237,28,36;
+    RM=0;
+    GM=101;
+    BM=179;
+    RS=237;
+    GS=28;
+    BS=36;
   }
 }
 void ball(){
@@ -75,9 +86,13 @@ strip2.begin();
 strip2.show();
 strip. setBrightness(40);
 Wire.begin(4);                // join i2c bus with address #4
-mainColor();
-Maincolor= 0,101,179;
-Secondcolor= 237,28,36;
+//mainColor();
+RM=0;
+GM=101;
+BM=179;
+RS=237;
+GS=28;
+BS=36;
 }
 
 void loop() {
@@ -89,5 +104,5 @@ ball();
 strip.show();
 strip2.show();
 
-delay(2);
+delay(1);
 }
