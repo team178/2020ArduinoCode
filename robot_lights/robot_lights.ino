@@ -62,7 +62,7 @@ void mainColor(){
     GS=0;
     BS=127;
   }
-  if(input=="b"){
+  if(input=='b'){
     RM=15;
     GM=0;
     BM=127;
@@ -75,9 +75,19 @@ void ball(){
   for(int i=0; i<NUM2;i++){
     strip.setPixelColor(i,127,0,0);
   }
-  if(input=="1"){
+  if(input=='1'){
     for(int i=0; i<NUM2/5; i++){
       strip.setPixelColor(i,0,0,0);
+    }
+  }
+  if(input=='2'){
+    for(int i=0; i<(NUM2*2)/5;i++){
+      strip.setPixelColor(i,0,0,0);
+    }
+  }
+  if(input=='3'){
+    for(int i=0; i<(NUM2*3)/5;i++){
+      strip.setPixelColor
     }
   }
 }
