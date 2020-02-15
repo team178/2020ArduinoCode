@@ -4,7 +4,7 @@
 #define PIN 4
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM, PIN, NEO_GRB + NEO_KHZ800);
 #define NUM2 5
-#define PIN2 5
+#define PIN2 4
 Adafruit_NeoPixel strip2 = Adafruit_NeoPixel(NUM2, PIN2, NEO_GRB + NEO_KHZ800);
 int x=0;
 int y=1;
@@ -55,25 +55,30 @@ void defineinput(){
 }
 void mainColor(){
   if(input=="r"){
-    RM=237;
-    GM=28;
-    BM=36;
-    RS=0;
-    GS=101;
-    BS=179;
+    RM=127;
+    GM=0;
+    BM=0;
+    RS=15;
+    GS=0;
+    BS=127;
   }
   if(input=="b"){
-    RM=0;
-    GM=101;
-    BM=179;
-    RS=237;
-    GS=28;
-    BS=36;
+    RM=15;
+    GM=0;
+    BM=127;
+    RS=127;
+    GS=0;
+    BS=0;
   }
 }
 void ball(){
-  for(int i=0; i<5; i++){
-    strip2.setPixelColor(i,0,0,255);
+  for(int i=0; i<NUM2;i++){
+    strip.setPixelColor(i,127,0,0);
+  }
+  if(input=="1"){
+    for(int i=0; i<NUM2/5; i++){
+      strip.setPixelColor(i,0,0,0);
+    }
   }
 }
 
@@ -87,12 +92,12 @@ strip2.show();
 strip. setBrightness(40);
 Wire.begin(4);                // join i2c bus with address #4
 //mainColor();
-RM=0;
-GM=101;
-BM=179;
-RS=237;
-GS=28;
-BS=36;
+RM=15;
+GM=0;
+BM=127;
+RS=127;
+GS=0;
+BS=0;
 }
 
 void loop() {
