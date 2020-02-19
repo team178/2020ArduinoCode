@@ -1,10 +1,14 @@
+
 #include <Adafruit_NeoPixel.h>
 #include <Wire.h>
 
+
+// First strips, fading red with random blue lights
 #define N 144
 #define P 4
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(N, P, NEO_GRB + NEO_KHZ800);
 
+//Second strip, ball status lights
 #define N2 60
 #define P2 5
 Adafruit_NeoPixel strip2 = Adafruit_NeoPixel(N2, P2, NEO_GRB + NEO_KHZ800);
@@ -32,6 +36,7 @@ int BS;
 int balls = 0;
 
 
+//Generates which 3 pixels out of stip1 to invert the color
 void randomizer(){
   if(x==0){
   randompix=random(0, N);
@@ -40,6 +45,7 @@ void randomizer(){
   }
 }
 
+//Fade team color with 3 pixels the opposite color
 void fade(){  for(int i=0; i<N; i++){
     strip.setPixelColor(i,RM,GM,BM);
     strip.setBrightness(x);
@@ -61,16 +67,22 @@ else{
 }
 }
 
+//Read the input coming from roboRIO
 void readInput(int numBytes){
+  //Get I2C input
   if( 0 < Wire.available()){
+    //Take input and convert to integer
+    //input is brought in as a binary format
     binin = Wire.read();
     input = binin.toInt();
     
   }
   Serial.print(input);
-    
+
+  //Find case for the incoming input
   switch(input){
     case 114:
+      //Fade Red (r)
       RM=127;
       GM=0;
       BM=0;
@@ -79,6 +91,7 @@ void readInput(int numBytes){
       BS=127;
       break;
     case 98:
+      //Fade Blue (b)
       RM=15;
       GM=0;
       BM=127;
@@ -87,31 +100,38 @@ void readInput(int numBytes){
       BS=0;
       break;
     //case 108:
+      //Lightsaber (l)
       //lightsaber();
       //break;
     case 0:
+      // 0 balls in chute
       balls = 0;
       for(int i = 0; i < N2; i++){
         strip2.setPixelColor(i, 0,0,0);
       }
       break;
     case 01:
+      // 1 balls in chute
       balls = 1;
       ball();
       break;
     case 10:
+      // 2 balls in chute
       balls = 2;
       ball();
       break;
     case 11:
+      // 3 balls in chute
       balls = 3;
       ball();
       break;
     case 100:
+      // 4 balls in chute
       balls = 4;
       ball();
       break;
     case 101:
+      // 5 balls in chute
       balls = 5;
       ball();
       break;
@@ -119,8 +139,10 @@ void readInput(int numBytes){
   
 }
 
+//Set the sections of strip2 to show the status of the ball chute
 void ball(){
     strip2.clear();
+    //For as many balls there are in the chute, from roboRIO input, divide the length of the strip by five and fill those sections
    for(int i = 0; i < (N2*balls)/5; i++){
      strip2.setPixelColor(i, 255,255,255);
  //    strip3.setPixelColor(i,255,255,255);
@@ -148,7 +170,7 @@ strip2.show();
 //strip4.begin();
 //strip4.show();
 Wire.begin(4);                // join i2c bus with address #4
-Wire.onReceive(readInput);
+Wire.onReceive(readInput);    // event handler for when an input is detected
 }
 
 void loop() {
