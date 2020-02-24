@@ -24,7 +24,7 @@ int x=0;
 int y=1;
 int randompix;
 int randompix2;
-int randompix3;
+//int randompix3;
 int input;
 String binin;
 int RM;
@@ -33,7 +33,7 @@ int BM;
 int RS;
 int GS;
 int BS;
-int balls = 0;
+int balls = 3;
 
 
 //Generates which 3 pixels out of stip1 to invert the color
@@ -41,7 +41,7 @@ void randomizer(){
   if(x==0){
   randompix=random(0, N);
   randompix2=random(0, N);
-  randompix3=random(0, N);
+  //randompix3=random(0, N);
   }
 }
 
@@ -52,7 +52,7 @@ void fade(){  for(int i=0; i<N; i++){
   }
   strip.setPixelColor(randompix,RS,GS,BS);
   strip.setPixelColor(randompix2,RS,GS,BS);
-  strip.setPixelColor(randompix3,RS,GS,BS);
+//  strip.setPixelColor(randompix3,RS,GS,BS);
   if(y==1){
   x++;
   if(x==127){
@@ -75,7 +75,7 @@ void readInput(int numBytes){
     //input is brought in as a binary format
     binin = Wire.read();
     input = binin.toInt();
-    
+
   }
   Serial.print(input);
 
@@ -136,26 +136,27 @@ void readInput(int numBytes){
       ball();
       break;
   }
-  
+
 }
 
 //Set the sections of strip2 to show the status of the ball chute
 void ball(){
     strip2.clear();
     //For as many balls there are in the chute, from roboRIO input, divide the length of the strip by five and fill those sections
-   for(int i = 0; i < (N2*balls)/5; i++){
+   for(int i = 0; i < (N2*balls-30)/5; i++){
      strip2.setPixelColor(i, 255,255,255);
  //    strip3.setPixelColor(i,255,255,255);
      Serial.print(i);
     }
 }
-/*void lightsaber(){
-  for(int i=0; i<N4; i=i+2){
-    strip4.setPixelColor(i,RM,GM,BM);
-    strip4.show();
+void lightsaber(){
+  for(int i=30; int j=31; i<N2; i=i+2; j=j+2){
+    strip2.setPixelColor(i,RM,GM,BM);
+    strip2.setPixelColor(j,RM,GM,BM);
+    strip2.show();
     delay(2);
   }
-}*/
+}
 
 
 void setup() {
